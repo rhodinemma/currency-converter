@@ -1,0 +1,1 @@
+export const FIXER_API_KEY = process.env.FIXER_API_KEY;
