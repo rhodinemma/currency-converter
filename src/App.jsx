@@ -143,6 +143,7 @@ function App() {
       <Modal
         data-testid="modal"
         show={showModal}
+        centered
         style={{ color: "#222" }}
         onHide={handleCloseModal}
       >
