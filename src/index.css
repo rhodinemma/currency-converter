@@ -1,6 +1,11 @@
+* {
+    font-family: 'Work Sans', sans-serif;
+}
+
 body {
     background-color: #222 !important;
     color: white !important;
+    font-size: large;
 }
 
 .hidden {

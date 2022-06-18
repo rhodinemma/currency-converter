@@ -62,8 +62,9 @@ function App() {
           .get(BASE)
           .then((response) => {
             let conversion = carryOutConversion(response.data);
+            console.log(conversion);
             if (conversion) {
-              setResult(`${value} ${from} = ${conversion} ${to}`);
+              setResult(conversion);
               setShowModal(true);
               setShowSpinner(false);
               setShowAlert(false);
@@ -95,8 +96,17 @@ function App() {
   }
 
   return (
-    <Container>
-      <h1 className="mt-4 mb-4">Currency Converter Investigation</h1>
+    <Container className="mt-5">
+      <span>
+        <img
+          src="https://raw.githubusercontent.com/crane-cloud/frontend/develop/public/favicon.png"
+          width="50"
+          alt=""
+        />
+      </span>
+      <h1 className="mt-4 mb-4">
+        Crane Cloud Currency Converter Investigation
+      </h1>
       <Alert variant="danger" show={showAlert}>
         Error! {errors}
       </Alert>
@@ -131,16 +141,16 @@ function App() {
       <Modal
         data-testid="modal"
         show={showModal}
-        style={{ color: "#22" }}
+        style={{ color: "#222" }}
         onHide={handleCloseModal}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Conversion</Modal.Title>
+          <Modal.Title>Result</Modal.Title>
         </Modal.Header>
         <Modal.Body>{result}</Modal.Body>
         <Modal.Footer>
           <Button onClick={handleCloseModal} variant="success">
-            New conversion
+            Close
           </Button>
         </Modal.Footer>
       </Modal>
