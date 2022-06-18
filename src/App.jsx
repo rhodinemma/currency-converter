@@ -14,11 +14,11 @@ import axios from "axios";
 
 function App() {
   const BASE =
-    "http://data.fixer.io/api/latest?access_key=ac5ded36f89a3a9155f766450410ae3f";
+    "https://openexchangerates.org/api/latest.json?app_id=114c8b5a90b84b37b18a96b42c7e0578";
 
   const [value, setValue] = useState(1);
-  const [from, setFrom] = useState("UGX");
-  const [to, setTo] = useState("USD");
+  const [from, setFrom] = useState("USD");
+  const [to, setTo] = useState("UGX");
   const [showSpinner, setShowSpinner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -40,11 +40,11 @@ function App() {
 
   const carryOutConversion = useCallback(
     (res) => {
-      if (!res || res.success !== true) {
+      if (res.status !== 200) {
         return false;
       }
-      const convertFrom = res.rates[from];
-      const convertTo = res.rates[to];
+      const convertFrom = res.data.rates[from];
+      const convertTo = res.data.rates[to];
       const conversionResult = (1 / convertFrom) * convertTo * value;
       return conversionResult.toFixed(2);
     },
@@ -60,7 +60,8 @@ function App() {
         axios
           .get(BASE)
           .then((response) => {
-            let conversion = carryOutConversion(response.data);
+            console.log(response);
+            let conversion = carryOutConversion(response);
             console.log(conversion);
             if (conversion) {
               setResult(conversion);
@@ -121,10 +122,10 @@ function App() {
             />
           </Col>
           <Col sm="3">
-            <Form.Control value="UGX" onChange={handleSetFrom} />
+            <Form.Control value="USD" onChange={handleSetFrom} />
           </Col>
           <Col sm="3">
-            <Form.Control value="USD" onChange={handleSetTo} />
+            <Form.Control value="UGX" onChange={handleSetTo} />
           </Col>
           <Col sm="2">
             <Button variant="success" type="submit" data-testid="btn-converter">
