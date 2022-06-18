@@ -43,7 +43,6 @@ function App() {
       if (!res || res.success !== true) {
         return false;
       }
-
       const convertFrom = res.rates[from];
       const convertTo = res.rates[to];
       const conversionResult = (1 / convertFrom) * convertTo * value;
@@ -135,6 +134,9 @@ function App() {
               <span className={showSpinner ? "hidden" : ""}>Convert</span>
             </Button>
           </Col>
+        </Row>
+        <Row>
+          <small className="mt-4">Made with love by Rhodin</small>
         </Row>
       </Form>
 
