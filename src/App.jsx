@@ -1,5 +1,4 @@
 import { useState, useCallback } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Button,
   Form,
@@ -15,16 +14,17 @@ import axios from "axios";
 
 function App() {
   const BASE =
-    "http://data.fixer.io/api/latest?access_key=IRlAAk1uhEnPWV4f4cWlfccDJdHd3afC";
+    "http://data.fixer.io/api/latest?access_key=ac5ded36f89a3a9155f766450410ae3f";
 
   const [value, setValue] = useState(1);
   const [from, setFrom] = useState("UGX");
   const [to, setTo] = useState("USD");
-  const [showSpinner, , setShowSpinner] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [formValidity, setFormValidity] = useState(false);
   const [result, setResult] = useState("");
+  const [errors, setErrors] = useState("");
 
   function handleValue(e) {
     setValue(e.target.value.replace(/\D/g, ""));
@@ -73,6 +73,7 @@ function App() {
           })
           .catch((error) => {
             console.log(error);
+            setErrors(error);
             defineAlert();
           });
       }
@@ -97,7 +98,7 @@ function App() {
     <Container>
       <h1 className="mt-4 mb-4">Currency Converter Investigation</h1>
       <Alert variant="danger" show={showAlert}>
-        Error!
+        Error! {errors}
       </Alert>
 
       <Form onSubmit={handleConversion} noValidate validated={formValidity}>
@@ -111,10 +112,10 @@ function App() {
             />
           </Col>
           <Col sm="3">
-            <Form.Control as="select" value="UGX" onChange={handleSetFrom} />
+            <Form.Control value="UGX" onChange={handleSetFrom} />
           </Col>
           <Col sm="3">
-            <Form.Control as="select" value="USD" onChange={handleSetTo} />
+            <Form.Control value="USD" onChange={handleSetTo} />
           </Col>
           <Col sm="2">
             <Button variant="success" type="submit" data-testid="btn-converter">
