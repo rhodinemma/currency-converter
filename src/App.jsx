@@ -67,24 +67,83 @@ function App() {
               setShowModal(true);
               setShowSpinner(false);
               setShowAlert(false);
+            } else {
+              defineAlert();
             }
           })
           .catch((error) => {
             console.log(error);
+            defineAlert();
           });
       }
     },
     [value, from, to, carryOutConversion]
   );
 
+  function handleCloseModal() {
+    setValue(1);
+    setFrom("UGX");
+    setTo("USD");
+    setFormValidity(false);
+    setShowModal(false);
+  }
+
+  function defineAlert() {
+    setShowAlert(true);
+    setShowSpinner(false);
+  }
+
   return (
-    <div>
-      <form
-        onSubmit={handleConversion}
-        noValidate
-        validated={formValidity}
-      ></form>
-    </div>
+    <Container>
+      <h1 className="mt-4 mb-4">Currency Converter Investigation</h1>
+      <Alert variant="danger" show={showAlert}>
+        Error!
+      </Alert>
+
+      <Form onSubmit={handleConversion} noValidate validated={formValidity}>
+        <Row>
+          <Col sm="3">
+            <Form.Control
+              placeholder="0"
+              value={value}
+              onChange={handleValue}
+              required
+            />
+          </Col>
+          <Col sm="3">
+            <Form.Control as="select" value="UGX" onChange={handleSetFrom} />
+          </Col>
+          <Col sm="3">
+            <Form.Control as="select" value="USD" onChange={handleSetTo} />
+          </Col>
+          <Col sm="2">
+            <Button variant="success" type="submit" data-testid="btn-converter">
+              <span className={showSpinner ? "" : "hidden"}>
+                <Spinner animation="border" size="sm" />
+              </span>
+              <span className={showSpinner ? "hidden" : ""}>Convert</span>
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+
+      <Modal
+        data-testid="modal"
+        show={showModal}
+        style={{ color: "#22" }}
+        onHide={handleCloseModal}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Conversion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{result}</Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleCloseModal} variant="success">
+            New conversion
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Container>
   );
 }
 
