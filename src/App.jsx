@@ -13,8 +13,7 @@ import "./App.css";
 import axios from "axios";
 
 function App() {
-  const BASE =
-    "https://openexchangerates.org/api/latest.json?app_id=114c8b5a90b84b37b18a96b42c7e0578";
+  const BASE = "https://openexchangerates.org/api/latest.json?app_id=";
 
   const [value, setValue] = useState(1);
   const [from, setFrom] = useState("USD");
